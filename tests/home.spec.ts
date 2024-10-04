@@ -41,7 +41,6 @@ test.describe('Write titles to text file', () => {
     let homePage: HomePage;
     homePage = new HomePage(page);
     await homePage.navigate()
-    //await homePage.qaClick()
     await homePage.serbiaClick()
     await homePage.listTitles()
   })
