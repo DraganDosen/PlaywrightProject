@@ -1,2 +1,5 @@
-# PlaywrightProject
-Fast and reliable modern apps
+# playwright
+
+If you want to run tests you can open terminal and copy command:
+ npx playwright test "home.spec.ts"
+ We have 3 tests in the file "home.spec.ts". In Description is visible what test need to check. Also we can click on green sign left of test or click run button or click execute Playwright test button. We have HomePage class with methods and Links class with some locators. Output.txt file we use to store result of test where test write values in txt file. We have only 12 positions  after filtering in Serbia, but test only is coping that to txt file. If I click on button for more position we will have 16, but now only visible position is copied to txt file, I did not click show more button. Result is visible in terminal and in index.html. Tests are running on Edge, Chrome and Firefox, odher devices are commented in config file.
