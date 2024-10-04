@@ -23,7 +23,6 @@ class Links {
        this.title1 = '//*[@id="resources-feed"]/div[1]/h3';
        this.title2 ='//*[@id="resources-feed"]/div[2]/h3';
        this.spanValue='//*[@id="resources-feed"]/div[2]/p/span[contains(text(), "EtonDigital")]';
-       //this.spanValue='//*[@id="resources-feed"]/div[1]/p/span[contains(text(), "Plenigo")]';
        this.teamText = '//*[@id="resources-feed"]/div[2]/p';
        this.careerslink = 'https://www.holycode.com/careers/';
        this.serbiaBtn='//button[@class="c-tag location"][contains(text(), "Serbia")]';

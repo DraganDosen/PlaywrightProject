@@ -7,7 +7,7 @@ let lnk: Links;
 let lnkbtn: any;
 let linkObj = new Links();
 class HomePage {
-  
+
   page: Page;
   getStartedBtn: Locator;
   qaBtn: Locator;
@@ -15,9 +15,9 @@ class HomePage {
   goTo: any;
   searchBtn: Locator;
   qaButton: any;
-  title1:any;
-  title2:any;
-  serbiaButton:any;
+  title1: any;
+  title2: any;
+  serbiaButton: any;
 
   constructor(page: Page) {
     this.page = page;
@@ -31,11 +31,11 @@ class HomePage {
   async navigate() {
     await this.goTo;
     await this.page.waitForTimeout(1000);
-    
+
   }
   async navigateToUrl() {
     await this.goTo;
-   
+
   }
   async qaClick() {
     await this.page.waitForTimeout(1000);
@@ -47,8 +47,8 @@ class HomePage {
     const isEnabled = await buttonQA.isEnabled();
     //check is stable
     const isStable = await this.qaButton.evaluate(element => {
-    const rect = element.getBoundingClientRect();
-    return rect.width > 0 && rect.height > 0;
+      const rect = element.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
     });
 
     if (isEnabled) {
@@ -56,7 +56,7 @@ class HomePage {
       //click on QA button for filtering
       await buttonQA.click();
     }
-
+    await this.page.waitForTimeout(1000);
 
   }
 
@@ -66,24 +66,25 @@ class HomePage {
     await this.page.waitForSelector(linkObj.serbiaBtn, { state: 'visible' });
     await this.page.waitForSelector(linkObj.serbiaBtn, { state: 'attached' });
     await this.page.waitForTimeout(1000);
-      //visible and attached
-     
-  
-      const buttonSerbia = await this.serbiaButton;
-      const isEnabled = await buttonSerbia.isEnabled();
-      //check is stable
-      const isStable = await this.serbiaButton.evaluate(element => {
+    //visible and attached
+
+
+    const buttonSerbia = await this.serbiaButton;
+    const isEnabled = await buttonSerbia.isEnabled();
+    //check is stable
+    const isStable = await this.serbiaButton.evaluate(element => {
       const rect = element.getBoundingClientRect();
       return rect.width > 0 && rect.height > 0;
-      });
-  
-      if (isEnabled) {
-        console.log('Serbia Button is enabled and clickable.');
-        //click on QA button for filtering
-        await buttonSerbia.click();
-      }
+    });
+
+    if (isEnabled) {
+      console.log('Serbia Button is enabled and clickable.');
+      //click on QA button for filtering
+      await buttonSerbia.click();
     }
-  
+    await this.page.waitForTimeout(1000);
+  }
+
 
   async writeTitles() {
     //visible and attached
@@ -92,7 +93,7 @@ class HomePage {
 
     const title1 = await this.page.locator(linkObj.title1).innerText();
     const title2 = await this.page.locator(linkObj.title2).innerText();
-    
+
     console.log("text is:" + title1);
     console.log("text is:" + title2);
     //writing titles to output.txt
@@ -100,34 +101,38 @@ class HomePage {
   }
   async listTitles() {
     //visible and attached
-    const divs = await this.page.locator(linkObj.listTitles+'/h3');
-  const count = await divs.count();
-  console.log("count: "+count);
-  // Create a writable stream
-  const file = fs.createWriteStream('output.txt');
-  for (let i = 0; i < count; i++) {
-    const div = divs.nth(i);
-    const text = await div.innerText();
-    console.log(`Div ${i + 1}: ${text}`);
-    file.write(`Position ${i + 1}: ${text}\n`);
-  }
-  file.end();
+    const divs = await this.page.locator(linkObj.listTitles + '/h3');
+    const count = await divs.count();
+    console.log("count: " + count);
+    // Create a writable stream
+    const file = fs.createWriteStream('output.txt');
+    for (let i = 0; i < count; i++) {
+      const div = divs.nth(i);
+      const text = await div.innerText();
+      console.log(`Div ${i + 1}: ${text}`);
+      file.write(`Position ${i + 1}: ${text}\n`);
+    }
+    file.end();
   }
 
-  async checkSpan() {
+  async checkSpanForPosition() {
     // visible and attached elements
-    await this.page.waitForSelector(linkObj.spanValue, { state: 'visible' });
-    await this.page.waitForSelector(linkObj.spanValue, { state: 'attached' });
-    const teamText = await this.page.locator(linkObj.teamText).innerText();
-   //comparing
-    await expect(teamText).toContain("Team: EtonDigital");
+    //const divs = await this.page.locator(linkObj.listTitles+'/h3');
+    const divs = await this.page.locator(linkObj.listTitles);
+    const count = await divs.count();
+    console.log("count: " + count);
 
-    await this.page.locator(linkObj.spanValue)
-    const spanText = await this.page.locator(linkObj.spanValue).textContent();
+    for (let i = 0; i < count; i++) {
+      const div = divs.nth(i);
+      const text = await div.innerText();
+      console.log(`Div ${i + 1}: ${text}`);
+      if (text.includes("Senior QA Developer/QA Team Lead")) {
+        // Perform your action here
+        console.log('Text found!');
+        await expect(text).toContain("EtonDigital");
+      }
+    }
 
-    console.log(spanText);
-    await expect(spanText).toContain("EtonDigital");
   }
-
 }
 export default HomePage;
